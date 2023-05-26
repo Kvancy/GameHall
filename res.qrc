@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/login.jpg</file>
+        <file>res/signup.png</file>
+        <file>res/user.png</file>
+        <file>res/key.png</file>
+        <file>res/welcome.png</file>
+        <file>res/login2.jpg</file>
+        <file>res/exclamation.png</file>
+        <file>res/WA.jpg</file>
+        <file>res/checked.png</file>
+        <file>res/sucess.png</file>
+        <file>res/R-C.jpg</file>
+        <file>res/R-C.png</file>
+        <file>res/R-C2.jpg</file>
+        <file>res/R-C3.jpg</file>
+    </qresource>
+</RCC>
