@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.5)
 
 project(TeamProject VERSION 0.1 LANGUAGES CXX)
 
+INCLUDE_DIRECTORIES(
+    ${PROJECT_SOURCE_DIR}
+)
+
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -24,6 +28,11 @@ set(PROJECT_SOURCES
         signsucess.h signsucess.cpp signsucess.ui
         gamehall.h gamehall.cpp gamehall.ui
         ico.rc
+        test.h test.cpp test.ui
+        hallbtn.h hallbtn.cpp
+        gif_label.h gif_label.cpp
+        ranklbabel.h ranklbabel.cpp
+
 
 )
 
@@ -61,6 +70,7 @@ set_target_properties(TeamProject PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+
 
 install(TARGETS TeamProject
     BUNDLE DESTINATION .

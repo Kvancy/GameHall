@@ -83,9 +83,10 @@ void LoginWindow::sign_init()
 void LoginWindow::mybtn()
 {
     connect(ui->signUp,&QPushButton::clicked,this,&LoginWindow::sign);
+    MainWindow *m = new MainWindow();
     connect(ui->back,&QPushButton::clicked,[=](){
-        MainWindow *m = new MainWindow();
-        m->show();close();});
+        m->show();
+        close();});
 }
 
 void LoginWindow::Close()

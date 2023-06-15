@@ -3,7 +3,6 @@
 #include <QPixmap>
 #include <QPushButton>
 #include "mainwindow.h"
-#include "loginwindow.h"
 SignSucess::SignSucess(QDialog *parent) :
     QDialog(parent),
     ui(new Ui::SignSucess)

@@ -8,14 +8,13 @@
 #include "gamehall.h"
 #include <QRegularExpressionValidator>
 #include <QSettings>
-
+#include "test.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     //    this->setWindowOpacity(0.7);//设置透明1-全体透明
-
     setWindowTitle("快快登录开始游戏吧嘿嘿");
     setWindowIcon(QIcon(":/res/R-C.png"));
     linkDatabase();
@@ -31,7 +30,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::linkDatabase()//连接数据库
 {
-    qDebug() << QSqlDatabase::drivers();
     database=QSqlDatabase::addDatabase("QMYSQL");
     database.setHostName("rm-cn-wwo38fhvh0001iuo.rwlb.rds.aliyuncs.com");
     database.setPort(3306);
@@ -150,9 +148,9 @@ void MainWindow::login_judge()//根据判断结果显示不同内容
     if(flag==0)//登录成功
     {
         QString username = ui->lineEdit_1->text();
+        //记住账号
         QSettings writeini(inipath,QSettings::IniFormat);
         writeini.setValue("Login/username",username);
-        qDebug() << writeini.value("Login/username");
         writeini.setValue("Login/isremember","false");
         if(ischecked)//登录成功并选中记住密码时更新ini配置
         {
@@ -160,7 +158,7 @@ void MainWindow::login_judge()//根据判断结果显示不同内容
             writeini.setValue("Login/password",password);
             writeini.setValue("Login/isremember","true");
         }
-        GameHall *gamehall = new GameHall();
+        GameHall* gamehall = new GameHall(username);
         gamehall->show();
         close();
     }

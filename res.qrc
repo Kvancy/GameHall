@@ -14,5 +14,21 @@
         <file>res/R-C.png</file>
         <file>res/R-C2.jpg</file>
         <file>res/R-C3.jpg</file>
+        <file>res/fiveline.png</file>
+        <file>res/chuanqi.gif</file>
+        <file>res/right.png</file>
+        <file>res/left.png</file>
+        <file>res/1.gif</file>
+        <file>res/guess.jpg</file>
+        <file>res/sha.jpg</file>
+        <file>res/Tabletennis.png</file>
+        <file>res/chuanqi.png</file>
+        <file>res/landlord.png</file>
+        <file>res/lol.gif</file>
+        <file>res/lol.png</file>
+        <file>res/lol.jpg</file>
+        <file>res/ayqj.png</file>
+        <file>res/search.png</file>
+        <file>res/rank.png</file>
     </qresource>
 </RCC>
