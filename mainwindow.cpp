@@ -39,7 +39,7 @@ void MainWindow::linkDatabase()//连接数据库
     database.open();
     if(!database.isOpen())
     {
-        setWindowTitle("数据库没有连接成功呐！");
+        setWindowTitle("请联网后重新启动！");
         //exit(0);
     }
 }
@@ -98,7 +98,7 @@ void MainWindow::login_init()//登录界面的美化
     ui->gantanhao->setPixmap(gth2);
 
     //规定输入规范
-    ui->lineEdit_1->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]{1,10}")));   //只能输入数字,控制不超过10位
+    ui->lineEdit_1->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9a-zA-Z]{1,10}")));   //只能输入数字字母,控制不超过10位
 }
 
 int MainWindow::check()//MD5检验账号密码

@@ -30,5 +30,8 @@
         <file>res/ayqj.png</file>
         <file>res/search.png</file>
         <file>res/rank.png</file>
+        <file>res/pikaqiu.jpg</file>
+        <file>res/Searchresults.png</file>
+        <file>res/cantfind.png</file>
     </qresource>
 </RCC>

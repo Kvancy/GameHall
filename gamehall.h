@@ -19,6 +19,7 @@ public:
     QString path=QApplication::applicationDirPath();
     QString ID;
 
+signals:
 
 
 private slots:
@@ -33,6 +34,7 @@ private:
     void search();
     void wheelEvent(QWheelEvent *event);
     void init();
+    bool eventFilter(QObject *obj, QEvent *event);
 
 };
 

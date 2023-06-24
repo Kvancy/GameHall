@@ -25,6 +25,8 @@ private:
     void sign();
     bool signcheck();
     void sign_init();
+    void send();
+    int verificationcode;
 
 private slots:
     void Close();

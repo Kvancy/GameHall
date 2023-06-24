@@ -16,6 +16,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 COMPONENTS Sql REQUIRED)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Network)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED Network COMPONENTS Core)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -28,10 +30,11 @@ set(PROJECT_SOURCES
         signsucess.h signsucess.cpp signsucess.ui
         gamehall.h gamehall.cpp gamehall.ui
         ico.rc
-        test.h test.cpp test.ui
         hallbtn.h hallbtn.cpp
         gif_label.h gif_label.cpp
         ranklbabel.h ranklbabel.cpp
+        search_results.h search_results.cpp search_results.ui
+        smtp.h smtp.cpp
 
 
 )
@@ -61,6 +64,8 @@ endif()
 
 target_link_libraries(TeamProject PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(TeamProject PRIVATE Qt6::Sql)
+target_link_libraries(TeamProject PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+target_link_libraries(TeamProject PRIVATE Qt6::Network)
 
 
 set_target_properties(TeamProject PROPERTIES

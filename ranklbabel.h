@@ -8,7 +8,7 @@ class rankLbabel : public QLabel
     Q_OBJECT
 public:
     explicit rankLbabel(QWidget *parent = nullptr);
-    void mouseDoubleClickEvent(QMouseEvent *e);
+    void mousePressEvent(QMouseEvent *e);
     QString path=QApplication::applicationDirPath();
 private:
     void leaveEvent(QEvent *event);

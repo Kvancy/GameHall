@@ -1,22 +1,22 @@
-#ifndef TEST_H
-#define TEST_H
+//#ifndef TEST_H
+//#define TEST_H
 
-#include <QWidget>
+//#include <QWidget>
 
-namespace Ui {
-class Test;
-}
+//namespace Ui {
+//class Test;
+//}
 
-class Test : public QWidget
-{
-    Q_OBJECT
+//class Test : public QWidget
+//{
+//    Q_OBJECT
 
-public:
-    explicit Test(QWidget *parent = nullptr);
-    ~Test();
+//public:
+//    explicit Test(QWidget *parent = nullptr);
+//    ~Test();
 
-private:
-    Ui::Test *ui;
-};
+//private:
+//    Ui::Test *ui;
+//};
 
-#endif // TEST_H
+//#endif // TEST_H

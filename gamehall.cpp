@@ -1,4 +1,5 @@
 #include "gamehall.h"
+#include "search_results.h"
 #include "ui_gamehall.h"
 #include <QProcess>
 #include <QMovie>
@@ -9,6 +10,7 @@
 #include <QFileDialog>
 #include "roundimg.h"
 #include <QSqlQuery>
+
 GameHall::GameHall(QString id,QWidget *parent) ://id记录登录用户的用户id
     QWidget(parent),
     ui(new Ui::GameHall)
@@ -28,7 +30,10 @@ GameHall::GameHall(QString id,QWidget *parent) ://id记录登录用户的用户i
     setMouseTracking(true);
     init();
     btncon(movie,ui->gif);
+
     search();
+    //利用事件过滤器给搜索label添加点击释放信号功能
+    ui->searchIcon->installEventFilter(this);
 
 
 }
@@ -50,12 +55,10 @@ void GameHall::init()
     ui->right->setIcon(QIcon(":/res/right.png"));
     ui->right->setIconSize(QSize(85,85));
     ui->left->setStyleSheet("QPushButton{border-radius:35px;}"
-                             "QPushButton:hover{background-color:rgb(255, 255, 255); }"
                              "QPushButton:pressed{background-color:rgb(204, 228, 247);}"
                              );
 
     ui->right->setStyleSheet("QPushButton{border-radius:35px;}"
-                            "QPushButton:hover{background-color:rgb(255, 255, 255); }"
                             "QPushButton:pressed{background-color:rgb(204, 228, 247);}"
                             );
     //设置游戏图标的图像
@@ -97,6 +100,10 @@ void GameHall::init()
                                   "padding-left:10px;"       //内边距-字体缩进
                                   "background-color: rgb(255, 255, 255);" //背景颜色
                                   "border:2px solid rgb(20,196,188);border-radius:20px;");//边框粗细-颜色-圆角
+    //Home按钮
+    ui->Home->setStyleSheet("QPushButton{background-color: rgb(225, 225, 225);border:2px groove gray;border-radius:40px;padding:2px 4px;border-style: outset;}"
+                            "QPushButton:hover{background-color:rgb(229, 241, 251); color: black;}"
+                            "QPushButton:pressed{background-color:rgb(204, 228, 247);border-style: inset;}");
     //搜索图标
     QPixmap img;
     img.load(":/res/search.png");
@@ -177,8 +184,8 @@ void GameHall::btncon(QMovie *movie,Gif_Label *gif)
     //鼠标进入退出按钮出现或隐藏
     connect(gif,&Gif_Label::leave,[=]()
             {
-        ui->left->hide();
-        ui->right->hide();
+                ui->left->hide();
+                ui->right->hide();
             });
     connect(gif,&Gif_Label::enter,[=]()
             {
@@ -187,26 +194,35 @@ void GameHall::btncon(QMovie *movie,Gif_Label *gif)
             });
     //移动滚动条效果
     connect(ui->verticalScrollBar,SIGNAL(valueChanged(int)),this,SLOT(slots_scroolwidget(int)));
+    //头像上传按钮
     connect(ui->test,&QPushButton::clicked,this,&GameHall::avatarUpload);
 }
 
 void GameHall::search()
 {
     QStringList dic;
-    //数据库暂时崩了，回来优化
-    dic << "first" << "second" << "firsts" << "seconds";
+    //数据库暂时崩了，回来优化、
+    QSqlQuery query;
+    QString s="SELECT games from games";
+    query.exec(s);
+    if(query.first())
+    {
+        dic<<query.value(0).toString();
+        while(query.next())
+        {
+            dic<<query.value(0).toString();
+        }
+    }
     QCompleter *completer = new QCompleter(dic,this);
     completer->setFilterMode(Qt::MatchContains);
     ui->searchEdit->setCompleter(completer);
-
-
 }
 
 void GameHall::slots_scroolwidget(int value)
 {
     double p=static_cast<double>(value)/static_cast<double>(ui->verticalScrollBar->maximum());
-    //30是wiget横坐标，800是wigit的底y坐标-窗口的高度，+30是为了防止窗口y坐标到全局0
-    ui->hall->move(30,-(ui->hall->height()-800)*p+30);
+    //30是wiget横坐标，800是wigit的底y坐标-窗口的高度，+20是为了防止窗口y坐标到全局0
+    ui->hall->move(20,-(ui->hall->height()-800)*p+20);
 
 
 }
@@ -247,42 +263,77 @@ void GameHall::wheelEvent(QWheelEvent *event)
     }
 }
 
-void GameHall::avatarUpload()
+void GameHall::avatarUpload()//头像上传
 {
     QString fileName = QFileDialog::getOpenFileName(
         this, tr("open image file"),
         "./", tr("Image files(*.png *.jpg)"));
     //设置缓冲区保存二进制
-    QByteArray bytes;
-    QBuffer buffer(&bytes);
-    buffer.open(QIODevice::WriteOnly);
-    //打开并读取文件
-    QFile *file = new QFile(fileName);
-    file->open(QIODevice::ReadOnly);
-    QByteArray data;
-    data = file->readAll();
-    //获取图片类型
-    QFileInfo info(fileName);
-    char* format = info.suffix().toUpper().toLatin1().data();
-    qDebug()<<format;
-    //及时关闭文件
-    file->close();
-    QPixmap photo;
-    photo.loadFromData(data, format);
-    QPixmap pixMap= photo.scaled(70,70, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    //70为圆形的直径
-    pixMap =  PixmapToRound(pixMap, 70);
-    ui->avatar->setPixmap(pixMap);
+    if(fileName!="")
+    {
+        QByteArray bytes;
+        QBuffer buffer(&bytes);
+        buffer.open(QIODevice::WriteOnly);
+        //打开并读取文件
+        QFile *file = new QFile(fileName);
+        file->open(QIODevice::ReadOnly);
+        QByteArray data;
+        data = file->readAll();
+        //获取图片类型
+        QFileInfo info(fileName);
+        char* format = info.suffix().toUpper().toLatin1().data();
+        //及时关闭文件
+        file->close();
+        QPixmap photo;
+        photo.loadFromData(data, format);
+        QPixmap pixMap= photo.scaled(70,70, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        //70为圆形的直径
+        pixMap =  PixmapToRound(pixMap, 70);
+        ui->avatar->setPixmap(pixMap);
 
-    QString s2 = QString("UPDATE users set imagedata=?,avatar='1',format='%2' WHERE id='%1';").arg(ID).arg(format);
-    QSqlQuery query2;
-    query2.prepare(s2);
-    //好像不能直接用arg去传入，用addBindValue
-    query2.addBindValue(data);
-    query2.exec();
+        QString s2 = QString("UPDATE users set imagedata=?,avatar='1',format='%2' WHERE id='%1';").arg(ID).arg(format);
+        QSqlQuery query2;
+        query2.prepare(s2);
+        //好像不能直接用arg去传入，用addBindValue
+        query2.addBindValue(data);
+        query2.exec();
+    }
+
 }
 
+bool GameHall::eventFilter(QObject *obj, QEvent *event)
+{
+    if(obj==ui->searchIcon)
+    {
+        if(event->type()==QEvent::MouseButtonPress)
+        {
+            //搜索label点击后
+            QStringList dic;
+            int row=0;
+            while(ui->searchEdit->completer()->setCurrentRow(row))
+            {
+                dic << ui->searchEdit->completer()->currentCompletion();
+                row++;
+            }
+            ui->hallleft->hide();
+            ui->undoView_3->hide();
+            if(ui->searchEdit->text()=="")
+                dic.clear();
+            Search_results *result = new Search_results(dic,this);
+            result->move(20,20);
+            result->show();
+            //回归主页
+            connect(ui->Home,&QPushButton::clicked,[=]()
+                    {
+                        ui->hallleft->show();
+                        ui->undoView_3->show();
+                        result->hide();
+                    });
 
+        }
+    }
+    return QWidget::eventFilter(obj,event);
+}
 
 
 

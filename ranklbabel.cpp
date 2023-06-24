@@ -16,7 +16,7 @@ rankLbabel::rankLbabel(QWidget *parent)
 
 }
 
-void rankLbabel::mouseDoubleClickEvent(QMouseEvent *e)
+void rankLbabel::mousePressEvent(QMouseEvent *e)
 {
     //起始纵坐标为240，间隔20，高度40
     if(e->globalY()<(240+20*0+40)&&e->globalY()>(240+20*0))
