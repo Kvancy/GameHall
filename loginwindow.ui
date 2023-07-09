@@ -159,7 +159,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string>input your email</string>
+     <string>input your QQ email</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_email">

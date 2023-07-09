@@ -1,6 +1,8 @@
 #ifndef HALLBTN_H
 #define HALLBTN_H
 
+#include "qdatetime.h"
+#include "qpropertyanimation.h"
 #include <QToolButton>
 #include <QWidget>
 
@@ -16,6 +18,10 @@ private:
     void btn_up();
     void btn_down();
     bool flag=0;//记录目前按钮状态，弹起还是落下
+    QPropertyAnimation *aml1 = new QPropertyAnimation(this,"geometry");
+    QPropertyAnimation *aml2 = new QPropertyAnimation(this,"geometry");
+    QTime time;
+
 
 signals:
 

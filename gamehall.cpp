@@ -45,8 +45,8 @@ GameHall::~GameHall()
 
 void GameHall::init()
 {
-    ui->left->hide();
-    ui->right->hide();
+//    ui->left->hide();
+//    ui->right->hide();
     //加载左右移图片
     ui->left->setText("");
     ui->left->setIcon(QIcon(":/res/left.png"));
@@ -70,17 +70,17 @@ void GameHall::init()
     ui->chat->setIconSize(QSize(ui->fiveline->width()-10,ui->fiveline->height()-10));
     ui->chat->setStyleSheet("QToolButton{border-style: flat;}");
 
-    ui->zhuoqiu->setIcon(QIcon(":/res/Tabletennis.png"));
-    ui->zhuoqiu->setIconSize(QSize(ui->fiveline->width()-10,ui->fiveline->height()-10));
-    ui->zhuoqiu->setStyleSheet("QToolButton{border-style: flat;}");
+    ui->zmxy->setIcon(QIcon(":/res/zmxy.png"));
+    ui->zmxy->setIconSize(QSize(ui->fiveline->width()-10,ui->fiveline->height()-10));
+    ui->zmxy->setStyleSheet("QToolButton{border-style: flat;}");
 
-    ui->hlddz->setIcon(QIcon(":/res/landlord.png"));
-    ui->hlddz->setIconSize(QSize(ui->fiveline->width()-10,ui->fiveline->height()-10));
-    ui->hlddz->setStyleSheet("QToolButton{border-style: flat;}");
+    ui->sjsj->setIcon(QIcon(":/res/sjsj.png"));
+    ui->sjsj->setIconSize(QSize(ui->fiveline->width()-10,ui->fiveline->height()-10));
+    ui->sjsj->setStyleSheet("QToolButton{border-style: flat;}");
 
-    ui->ayqj->setIcon(QIcon(":/res/ayqj.png"));
-    ui->ayqj->setIconSize(QSize(ui->fiveline->width()-10,ui->fiveline->height()-10));
-    ui->ayqj->setStyleSheet("QToolButton{border-style: flat;}");
+    ui->yzzr->setIcon(QIcon(":/res/Warrior.jpg"));
+    ui->yzzr->setIconSize(QSize(ui->fiveline->width()-10,ui->fiveline->height()-10));
+    ui->yzzr->setStyleSheet("QToolButton{border-style: flat;}");
 
     ui->chuanqi->setIcon(QIcon(":/res/chuanqi.png"));
     ui->chuanqi->setIconSize(QSize(ui->fiveline->width()-10,ui->fiveline->height()-10));
@@ -151,6 +151,22 @@ void GameHall::btncon(QMovie *movie,Gif_Label *gif)
                 QProcess process(this);
                 process.startDetached(path+"/games/onlineChat/chat.exe");
             });
+    connect(ui->zmxy,&QPushButton::clicked,[=]()
+            {
+                QProcess process(this);
+                process.startDetached(path+"/games/Zmxyol/zmxy_online.exe");
+            });
+    connect(ui->sjsj,&QPushButton::clicked,[=]()
+            {
+                QProcess process(this);
+                process.startDetached(path+"/games/sjsj.exe");
+            });
+    connect(ui->yzzr,&QPushButton::clicked,[=]()
+            {
+                QProcess process(this);
+                process.startDetached(path+"/games/yzzr/yzzr.exe");
+            });
+
     connect(ui->right,&QPushButton::clicked,[=]()
             {
                 if(index==2)index=-1;
@@ -182,16 +198,16 @@ void GameHall::btncon(QMovie *movie,Gif_Label *gif)
             flag++;
         }});
     //鼠标进入退出按钮出现或隐藏
-    connect(gif,&Gif_Label::leave,[=]()
-            {
-                ui->left->hide();
-                ui->right->hide();
-            });
-    connect(gif,&Gif_Label::enter,[=]()
-            {
-                ui->left->show();
-                ui->right->show();
-            });
+//    connect(gif,&Gif_Label::leave,[=]()
+//            {
+//                ui->left->hide();
+//                ui->right->hide();
+//            });
+//    connect(gif,&Gif_Label::enter,[=]()
+//            {
+//                ui->left->show();
+//                ui->right->show();
+//            });
     //移动滚动条效果
     connect(ui->verticalScrollBar,SIGNAL(valueChanged(int)),this,SLOT(slots_scroolwidget(int)));
     //头像上传按钮

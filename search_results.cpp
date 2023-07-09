@@ -10,20 +10,26 @@ Search_results::Search_results(QStringList dic,QWidget *parent) :
 {
     ui->setupUi(this);
     QStringList icon_path;
-    icon_path << ":/res/fiveline.png" << ":/res/guess.jpg" << ":/res/Tabletennis.png" << ":/res/landlord.png"
-         << ":/res/ayqj.png" << ":/res/chuanqi.png" << ":/res/lol.jpg" << ":/res/sha.jpg";
+    icon_path << ":/res/fiveline.png" << ":/res/guess.jpg" << ":/res/zmxy.png" << ":/res/sjsj.png"
+              << ":/res/Warrior.jpg" << ":/res/chuanqi.png" << ":/res/lol.jpg" << ":/res/sha.jpg" << ":/res/landlord.png"
+              << ":/res/ayqj.png" << ":/res/Tabletennis.png";
     QStringList exe_path;
-    exe_path << "/games/five2line/five2line.exe" << "/games/onlineChat/chat.exe";
+    exe_path << "/games/five2line/five2line.exe" << "/games/onlineChat/chat.exe" << "/games/Zmxyol/zmxy_online.exe"
+             << "/games/sjsj.exe" << "/games/yzzr/yzzr.exe";
     enum Game
     {
         五子棋 = 0 ,
         你画我猜,
-        腾讯桌球,
-        欢乐斗地主,
-        暗夜奇迹,
+        造梦西游,
+        神将世界,
+        勇者之刃,
         传奇,
         英雄联盟,
-        三国杀
+        三国杀,
+        欢乐斗地主,
+        暗夜奇迹,
+        腾讯桌球,
+
     }game;
 
     if(dic.empty())
@@ -46,14 +52,6 @@ Search_results::Search_results(QStringList dic,QWidget *parent) :
         {
             game = 五子棋;
         }
-        else if(dic[i]=="你画我猜")
-        {
-            game = 你画我猜;
-        }
-        else if(dic[i]=="腾讯桌球")
-        {
-            game = 腾讯桌球;
-        }
         else if(dic[i]=="欢乐斗地主")
         {
             game = 欢乐斗地主;
@@ -61,6 +59,14 @@ Search_results::Search_results(QStringList dic,QWidget *parent) :
         else if(dic[i]=="暗夜奇迹")
         {
             game = 暗夜奇迹;
+        }
+        else if(dic[i]=="腾讯桌球")
+        {
+            game = 腾讯桌球;
+        }
+        else if(dic[i]=="你画我猜")
+        {
+            game = 你画我猜;
         }
         else if(dic[i]=="传奇")
         {
@@ -73,6 +79,18 @@ Search_results::Search_results(QStringList dic,QWidget *parent) :
         else if(dic[i]=="三国杀")
         {
             game = 三国杀;
+        }
+        else if(dic[i]=="造梦西游")
+        {
+            game = 造梦西游;
+        }
+        else if(dic[i]=="神将世界")
+        {
+            game = 神将世界;
+        }
+        else if(dic[i]=="勇者之刃")
+        {
+            game = 勇者之刃;
         }
 
         if(i%4==0)

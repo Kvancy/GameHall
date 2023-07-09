@@ -13,16 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QUndoView" name="undoView_4">
-   <property name="geometry">
-    <rect>
-     <x>1050</x>
-     <y>20</y>
-     <width>141</width>
-     <height>781</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="avatar">
    <property name="geometry">
     <rect>
@@ -116,7 +106,7 @@
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="HallBtn" name="zhuoqiu">
+    <widget class="HallBtn" name="zmxy">
      <property name="geometry">
       <rect>
        <x>370</x>
@@ -126,7 +116,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>腾讯桌球</string>
+      <string>造梦西游</string>
      </property>
      <property name="toolButtonStyle">
       <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -205,7 +195,7 @@
       <enum>Qt::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
-    <widget class="HallBtn" name="ayqj">
+    <widget class="HallBtn" name="yzzr">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -215,7 +205,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>暗夜奇迹</string>
+      <string>勇者之刃</string>
      </property>
      <property name="toolButtonStyle">
       <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -278,7 +268,7 @@
       <string>gif</string>
      </property>
     </widget>
-    <widget class="HallBtn" name="hlddz">
+    <widget class="HallBtn" name="sjsj">
      <property name="geometry">
       <rect>
        <x>530</x>
@@ -288,7 +278,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>欢乐斗地主</string>
+      <string>神将世界</string>
      </property>
      <property name="toolButtonStyle">
       <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -306,14 +296,14 @@
     </widget>
     <zorder>undoView</zorder>
     <zorder>lol</zorder>
-    <zorder>zhuoqiu</zorder>
+    <zorder>zmxy</zorder>
     <zorder>sgs</zorder>
     <zorder>chuanqi</zorder>
     <zorder>chat</zorder>
-    <zorder>ayqj</zorder>
+    <zorder>yzzr</zorder>
     <zorder>fiveline</zorder>
     <zorder>gif</zorder>
-    <zorder>hlddz</zorder>
+    <zorder>sjsj</zorder>
     <zorder>left</zorder>
     <zorder>right</zorder>
    </widget>
@@ -353,7 +343,7 @@
       <bool>true</bool>
      </property>
      <property name="placeholderText">
-      <string>查找游戏(例如“斗地主”)</string>
+      <string>查找游戏(例如“五子棋”)</string>
      </property>
      <property name="cursorMoveStyle">
       <enum>Qt::LogicalMoveStyle</enum>
@@ -616,16 +606,6 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QUndoView" name="undoView_2">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>0</y>
-      <width>281</width>
-      <height>1041</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QUndoView" name="undoView_3">
     <property name="geometry">
      <rect>
@@ -637,11 +617,25 @@
     </property>
    </widget>
    <zorder>undoView_3</zorder>
-   <zorder>undoView_2</zorder>
    <zorder>hallleft</zorder>
    <zorder>widget</zorder>
    <zorder>verticalScrollBar</zorder>
   </widget>
+  <widget class="QUndoView" name="undoView_5">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>831</height>
+    </rect>
+   </property>
+  </widget>
+  <zorder>undoView_5</zorder>
+  <zorder>avatar</zorder>
+  <zorder>Home</zorder>
+  <zorder>test</zorder>
+  <zorder>hall</zorder>
  </widget>
  <customwidgets>
   <customwidget>

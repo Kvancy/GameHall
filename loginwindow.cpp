@@ -8,6 +8,7 @@
 #include "roundimg.h"
 #include "mainwindow.h"
 #include "signsucess.h"
+#include <QTimer>
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LoginWindow)
@@ -189,17 +190,61 @@ void LoginWindow::send()
     QString mailaddress_qstr = ui->get_email->text(); //获取用户输入的邮箱地址
     std::string mailaddress_str = mailaddress_qstr.toStdString();
     const char * mailaddress_c = mailaddress_str.c_str();
-    //这里因为抄下来的代码是char * 类型的，所以我们需要转换一下
     //随机生成验证码
     srand(QTime(0,0,0).secsTo(QTime::currentTime()));
     verificationcode = rand()%(99999 - 10000) + 10000;//产生一个5位数的随机数
     //将验证码加入字符串
-    QString verificationcode_qstr = QString("验证码为%1，若非本人操作，请勿告诉他人。——————信息来自TeamProject").arg(verificationcode);
+    QString verificationcode_qstr = QString("验证码为%1，请不要把验证码泄露给其他人,若非本人操作，请忽略此条邮件。——————信息来自TeamProject").arg(verificationcode);
     std::string verificationcode_str = verificationcode_qstr.toStdString();
     const char * verificationcode_c = verificationcode_str.c_str();
     //登录邮箱
-    Smtp smtp("1538629310@qq.com","vbeopifldxcjifci");  //第一个参数是发送者邮箱，第二个授权码，并不是邮箱密码
+      //第一个参数是发送者邮箱，第二个授权码
     //发送邮件
-    smtp.send(mailaddress_c,"验证信息",verificationcode_c);
+
+    if(mailaddress_qstr.length()>10)
+    {
+        if(mailaddress_qstr.endsWith("@qq.com"))
+        {
+                Smtp smtp("1538629310@qq.com","vbeopifldxcjifci");
+                smtp.send(mailaddress_c,"验证信息",verificationcode_c);
+                disconnect(ui->send,&QPushButton::clicked,this,&LoginWindow::send);
+                ui->send->setCursor(Qt::ArrowCursor);
+                QTimer *timer = new QTimer(this);//60秒断开连接
+                timer->start(60000);
+                connect(timer,&QTimer::timeout,[=]()
+                        {
+                    connect(ui->send,&QPushButton::clicked,this,&LoginWindow::send);
+                    ui->send->setCursor(Qt::PointingHandCursor);
+                });
+                QTimer *timer2 = new QTimer(this);//60秒倒计时
+                int text = 60;
+                timer2->start(1000);
+                connect(timer2,&QTimer::timeout,[=]()mutable
+                        {
+                    if(text!=0)
+                        {
+                        text-=1;
+                        ui->send->setText("已发送: "+QString::number(text,10));
+                    }
+                    else
+                        {
+                        ui->send->setText("重新发送");
+                        text=60;
+                        timer2->stop();
+                    }
+                });
+        }
+        else
+        {
+        ui->judge->setText("Not qq email!");
+        ui->judge->show();
+        }
+    }
+    else
+    {
+        ui->judge->setText("Email not found!");
+        ui->judge->show();
+    }
+
 
 }
