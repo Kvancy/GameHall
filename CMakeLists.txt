@@ -35,6 +35,8 @@ set(PROJECT_SOURCES
         ranklbabel.h ranklbabel.cpp
         search_results.h search_results.cpp search_results.ui
         smtp.h smtp.cpp
+        download.h download.cpp download.ui
+        removey.h removey.cpp removey.ui
 
 
 )

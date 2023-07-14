@@ -631,11 +631,25 @@
     </rect>
    </property>
   </widget>
+  <widget class="QProgressBar" name="progressBar">
+   <property name="geometry">
+    <rect>
+     <x>1047</x>
+     <y>360</y>
+     <width>141</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="value">
+    <number>24</number>
+   </property>
+  </widget>
   <zorder>undoView_5</zorder>
   <zorder>avatar</zorder>
   <zorder>Home</zorder>
   <zorder>test</zorder>
   <zorder>hall</zorder>
+  <zorder>progressBar</zorder>
  </widget>
  <customwidgets>
   <customwidget>

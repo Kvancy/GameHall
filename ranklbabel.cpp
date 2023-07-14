@@ -21,8 +21,10 @@ void rankLbabel::mousePressEvent(QMouseEvent *e)
     //起始纵坐标为240，间隔20，高度40
     if(e->globalY()<(240+20*0+40)&&e->globalY()>(240+20*0))
     {
-        QProcess process(this);
-        process.startDetached(path+"/games/five2line/five2line.exe");
+        QProcess *process = new QProcess(this);
+        process->start(path+"/games/five2line/five2line.exe");
+        emit Tohide();
+        connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
     }
 }
 
@@ -44,5 +46,10 @@ void rankLbabel::enterEvent(QEnterEvent *event)
         "border-color:rgb(255,0,0);"
         "background-color: qlineargradient(spread:pad, x1:0.52, y1:1, x2:0.54, y2:0,"
         "stop:0.0112994 rgba(66, 175, 255, 255),stop:1 rgba(255, 255, 255, 255))};");
+}
+
+void rankLbabel::processFinished(int, QProcess::ExitStatus)
+{
+    emit Toshow();
 }
 

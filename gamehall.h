@@ -2,8 +2,11 @@
 #define GAMEHALL_H
 
 #include "gif_label.h"
+#include "qdir.h"
+#include "qnetworkaccessmanager.h"
 #include <QWidget>
 #include <QApplication>
+#include <QProcess>
 namespace Ui {
 class GameHall;
 }
@@ -18,6 +21,14 @@ public:
     ~GameHall();
     QString path=QApplication::applicationDirPath();
     QString ID;
+    QNetworkReply *reply;
+    QFile *file;
+    void startRequest(QUrl url);
+    void httpReadyRead();
+    void updateDataReadProgress(qint64 bytesRead,qint64 totalBytes);
+    void httpFinished();
+    void downloadfile(QUrl url);
+
 
 signals:
 
@@ -25,6 +36,12 @@ signals:
 private slots:
     void slots_scroolwidget(int);
     void avatarUpload();
+    void processFinished(int, QProcess::ExitStatus);
+    void showContextMenu1(const QPoint& pos);
+    void showContextMenu2(const QPoint& pos);
+    void showContextMenu3(const QPoint& pos);
+    void showContextMenu4(const QPoint& pos);
+    void showContextMenu5(const QPoint& pos);
 
 private:
     Ui::GameHall *ui;
@@ -35,6 +52,7 @@ private:
     void wheelEvent(QWheelEvent *event);
     void init();
     bool eventFilter(QObject *obj, QEvent *event);
+    QNetworkAccessManager *manager;
 
 };
 

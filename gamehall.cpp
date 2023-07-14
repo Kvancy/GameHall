@@ -1,4 +1,5 @@
 #include "gamehall.h"
+#include "removey.h"
 #include "search_results.h"
 #include "ui_gamehall.h"
 #include <QProcess>
@@ -10,6 +11,8 @@
 #include <QFileDialog>
 #include "roundimg.h"
 #include <QSqlQuery>
+#include <QMenu>
+#include <QNetworkReply>
 
 GameHall::GameHall(QString id,QWidget *parent) ://id记录登录用户的用户id
     QWidget(parent),
@@ -143,29 +146,56 @@ void GameHall::btncon(QMovie *movie,Gif_Label *gif)
 {
     connect(ui->fiveline,&QPushButton::clicked,[=]()
             {
-                QProcess process(this);
-                process.startDetached(path+"/games/five2line/five2line.exe");
+                QProcess *process = new QProcess(this);
+                process->start(path+"/games/five2line/five2line.exe");
+                connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
+                this->hide();
             });
     connect(ui->chat,&QPushButton::clicked,[=]()
             {
-                QProcess process(this);
-                process.startDetached(path+"/games/onlineChat/chat.exe");
+        QProcess *process = new QProcess(this);
+        process->start(path+"/games/onlineChat/chat.exe");
+        connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
+        this->hide();
             });
     connect(ui->zmxy,&QPushButton::clicked,[=]()
             {
-                QProcess process(this);
-                process.startDetached(path+"/games/Zmxyol/zmxy_online.exe");
+        QProcess *process = new QProcess(this);
+        process->start(path+"/games/Zmxyol/zmxy_online.exe");
+        connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
+        this->hide();
             });
     connect(ui->sjsj,&QPushButton::clicked,[=]()
             {
-                QProcess process(this);
-                process.startDetached(path+"/games/sjsj.exe");
+        QProcess *process = new QProcess(this);
+        process->start(path+"/games/sjsj.exe");
+        connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
+        this->hide();
             });
     connect(ui->yzzr,&QPushButton::clicked,[=]()
             {
-                QProcess process(this);
-                process.startDetached(path+"/games/yzzr/yzzr.exe");
+        QProcess *process = new QProcess(this);
+        process->start(path+"/games/yzzr/yzzr.exe");
+        connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
+        this->hide();
             });
+    //对ranklabel设置游戏大厅的隐藏和显示
+    connect(ui->label_2,&rankLbabel::Toshow,[=]()
+            {
+        this->show();
+    });
+    connect(ui->label_2,&rankLbabel::Tohide,[=]()
+            {
+        this->hide();
+    });
+
+    //为hallbtn添加右键菜单功能
+    //这里代码很笨重，待优化
+    connect(ui->fiveline,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu1(const QPoint&)));
+    connect(ui->chat,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu2(const QPoint&)));
+    connect(ui->zmxy,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu3(const QPoint&)));
+    connect(ui->sjsj,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu4(const QPoint&)));
+    connect(ui->yzzr,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu5(const QPoint&)));
 
     connect(ui->right,&QPushButton::clicked,[=]()
             {
@@ -217,7 +247,6 @@ void GameHall::btncon(QMovie *movie,Gif_Label *gif)
 void GameHall::search()
 {
     QStringList dic;
-    //数据库暂时崩了，回来优化、
     QSqlQuery query;
     QString s="SELECT games from games";
     query.exec(s);
@@ -351,17 +380,186 @@ bool GameHall::eventFilter(QObject *obj, QEvent *event)
     return QWidget::eventFilter(obj,event);
 }
 
+void GameHall::processFinished(int, QProcess::ExitStatus)
+{
+    this->show();
+}
 
+void GameHall::showContextMenu1(const QPoint& pos)
+{
+    QMenu *menu = new QMenu(this);
+    QDir dir(path+"/games/five2line");
+    if(!dir.exists())
+    {
+        QAction *action = new QAction("卸载游戏");
+        menu->addAction(action);
+//        dir.removeRecursively();
+        connect(action,&QAction::triggered,[=]()
+                {
+            removeY *remove = new removeY();
+            remove->show();
+        });
 
+    }
+    else
+    {
 
+        QAction *action = new QAction("下载游戏");
+        menu->addAction(action);
+        connect(action,&QAction::triggered,[=]()
+                {
+                 downloadfile(QUrl("http://p3.music.126.net/tBTNafgjNnTL1KlZMt7lVA==/18885211718935735.jpg"));
+                });
+    }
+    menu->exec(ui->fiveline->mapToGlobal(pos));
+}
 
+void GameHall::showContextMenu2(const QPoint& pos)
+{
+    QMenu *menu = new QMenu(this);
+    QDir dir(path+"/games/onlineChat");
+    if(dir.exists())
+    {
+        QAction *action = new QAction("卸载游戏");
+        menu->addAction(action);
+        dir.removeRecursively();
+        removeY *remove = new removeY();
+        remove->show();
+        connect(action,&QAction::triggered,[=]()
+                {
+                    removeY *remove = new removeY();
+                    remove->show();
+                });
+    }
+    else
+    {
+        menu->addAction("下载游戏");
+    }
+    menu->exec(ui->chat->mapToGlobal(pos));
+}
 
+void GameHall::showContextMenu3(const QPoint& pos)
+{
+    QMenu *menu = new QMenu(this);
+    QDir dir(path+"/games/Zmxyol");
+    if(dir.exists())
+    {
+        QAction *action = new QAction("卸载游戏");
+        menu->addAction(action);
+        dir.removeRecursively();
+        removeY *remove = new removeY();
+        remove->show();
+        connect(action,&QAction::triggered,[=]()
+                {
+                    removeY *remove = new removeY();
+                    remove->show();
+                });
+    }
+    else
+    {
+        menu->addAction("下载游戏");
+    }
+    menu->exec(ui->zmxy->mapToGlobal(pos));
+}
 
+void GameHall::showContextMenu4(const QPoint& pos)
+{
+    QMenu *menu = new QMenu(this);
+    QDir dir(path+"/games/sjsj");
+    if(dir.exists())
+    {
+        QAction *action = new QAction("卸载游戏");
+        menu->addAction(action);
+        dir.removeRecursively();
+        removeY *remove = new removeY();
+        remove->show();
+        connect(action,&QAction::triggered,[=]()
+                {
+                    removeY *remove = new removeY();
+                    remove->show();
+                });
 
+    }
+    else
+    {
+        menu->addAction("下载游戏");
+    }
+    menu->exec(ui->sjsj->mapToGlobal(pos));
+}
 
+void GameHall::showContextMenu5(const QPoint& pos)
+{
+    QMenu *menu = new QMenu(this);
+    QDir dir(path+"/games/yzzr");
+    if(dir.exists())
+    {
+        QAction *action = new QAction("卸载游戏");
+        menu->addAction(action);
+        dir.removeRecursively();
+        removeY *remove = new removeY();
+        remove->show();
+        connect(action,&QAction::triggered,[=]()
+                {
+                    removeY *remove = new removeY();
+                    remove->show();
+                });
+    }
+    else
+    {
+        menu->addAction("下载游戏");
+    }
+    menu->exec(ui->yzzr->mapToGlobal(pos));
+}
 
+void GameHall::startRequest(QUrl url)
+{
+    reply = manager->get(QNetworkRequest(url));
+    connect(reply,&QNetworkReply::readyRead,this,&GameHall::httpReadyRead);
+//    connect(reply,&QNetworkReply::downloadProgress,this,&GameHall::updateDataReadProgress);
+    connect(reply,&QNetworkReply::finished,this,&GameHall::httpFinished);
+}
 
+void GameHall::httpReadyRead()
+{
+    if (file) {
+        file->write(reply->readAll());
+    }
+}
 
+void GameHall::updateDataReadProgress(qint64 bytesRead,qint64 totalBytes)
+{
+//    ui->progressBar->setMaximum(totalBytes);
+//    ui->progressBar->setValue(bytesRead);
+}
 
+void GameHall::httpFinished()
+{
+//    ui->progressBar->hide();
+//    if (file) {
+//        file->close();
+//        delete file;
+//        file = nullptr;
+//    }
+//    reply->deleteLater();
+//    reply = 0;
+}
 
+void GameHall::downloadfile(QUrl url)
+{
+    QFileInfo info(url.path());
+    QString fileName(info.fileName());
+    qDebug()<<fileName;
+    if (fileName.isEmpty()) {
+        fileName = "index.html";
+    }
+    file = new QFile(fileName);
+    if (!file->open(QIODevice::WriteOnly)) {
+        delete file;
+        file = 0;
+        return;
+    }
+    startRequest(url);
+//    ui->progressBar->setValue(0);
+//    ui->progressBar->show();
+}
 

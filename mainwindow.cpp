@@ -8,7 +8,6 @@
 #include "gamehall.h"
 #include <QRegularExpressionValidator>
 #include <QSettings>
-#include "test.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)

@@ -7,6 +7,9 @@ HallBtn::HallBtn(QWidget *parent)
     setCursor(Qt::PointingHandCursor);
     aml1->setDuration(200);
     aml1->setEasingCurve(QEasingCurve::Linear);
+    //建立菜单策略
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+
 }
 
 
