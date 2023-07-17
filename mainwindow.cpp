@@ -49,6 +49,11 @@ void MainWindow::login_init()//登录界面的美化
 
     pwdRemember();
 
+    ui->judge->hide();
+
+    ui->judge->setStyleSheet("color:rgb(255,0,0);"
+                             "font: 10pt 'Arial'");
+
     ui->undoView->setStyleSheet("background-color: rgb(255,255,255);");
     ui->widget->setStyleSheet("background-color: rgb(255,255,255);");
     ui->signup->setStyleSheet("QPushButton{font: 25 14pt '微软雅黑 Light';color: rgb(255,255,255);background-color: rgb(20,196,188);"
@@ -165,12 +170,16 @@ void MainWindow::login_judge()//根据判断结果显示不同内容
     {
         ui->gantanhao->move(480,162);
         ui->gantanhao->show();
+        ui->judge->setText("未找到该用户！");
+        ui->judge->show();
     }
     else//密码错误
     {
 
         ui->gantanhao->move(480,222);
         ui->gantanhao->show();
+        ui->judge->setText("密码错误！");
+        ui->judge->show();
     }
 }
 

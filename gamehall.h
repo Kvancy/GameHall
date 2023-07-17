@@ -23,12 +23,6 @@ public:
     QString ID;
     QNetworkReply *reply;
     QFile *file;
-    void startRequest(QUrl url);
-    void httpReadyRead();
-    void updateDataReadProgress(qint64 bytesRead,qint64 totalBytes);
-    void httpFinished();
-    void downloadfile(QUrl url);
-
 
 signals:
 

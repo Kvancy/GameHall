@@ -10,6 +10,8 @@ removeY::removeY(QWidget *parent) :
 {
         this->hide();
     });
+    setWindowIcon(QIcon(":/res/R-C.png"));
+    setWindowTitle("卸载成功！");
 }
 
 removeY::~removeY()

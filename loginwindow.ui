@@ -107,6 +107,9 @@
       <height>30</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>Sure</string>
     </property>
@@ -183,6 +186,9 @@
       <width>220</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Click here to Return login</string>

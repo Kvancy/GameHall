@@ -14,6 +14,9 @@ class Download : public QDialog
 public:
     explicit Download(QWidget *parent = nullptr);
     ~Download();
+private slots:
+    void sltProgress(qint64 bytesRead, qint64 totalBytes, qreal progress);
+    void sltDownloadFinished();
 
 private:
     Ui::Download *ui;

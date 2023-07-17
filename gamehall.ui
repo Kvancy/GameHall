@@ -45,10 +45,10 @@
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="text">
-    <string>Home</string>
+    <string>主页</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="test">
+  <widget class="QPushButton" name="upload">
    <property name="geometry">
     <rect>
      <x>1080</x>
@@ -109,8 +109,8 @@
     <widget class="HallBtn" name="zmxy">
      <property name="geometry">
       <rect>
-       <x>370</x>
-       <y>510</y>
+       <x>50</x>
+       <y>520</y>
        <width>90</width>
        <height>100</height>
       </rect>
@@ -182,8 +182,8 @@
     <widget class="HallBtn" name="chat">
      <property name="geometry">
       <rect>
-       <x>210</x>
-       <y>510</y>
+       <x>530</x>
+       <y>520</y>
        <width>90</width>
        <height>100</height>
       </rect>
@@ -198,8 +198,8 @@
     <widget class="HallBtn" name="yzzr">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>640</y>
+       <x>370</x>
+       <y>520</y>
        <width>90</width>
        <height>100</height>
       </rect>
@@ -231,7 +231,7 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>510</y>
+       <y>640</y>
        <width>90</width>
        <height>100</height>
       </rect>
@@ -271,8 +271,8 @@
     <widget class="HallBtn" name="sjsj">
      <property name="geometry">
       <rect>
-       <x>530</x>
-       <y>510</y>
+       <x>210</x>
+       <y>520</y>
        <width>90</width>
        <height>100</height>
       </rect>
@@ -631,25 +631,28 @@
     </rect>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar">
+  <widget class="QPushButton" name="exit">
    <property name="geometry">
     <rect>
-     <x>1047</x>
-     <y>360</y>
-     <width>141</width>
-     <height>23</height>
+     <x>1080</x>
+     <y>230</y>
+     <width>80</width>
+     <height>80</height>
     </rect>
    </property>
-   <property name="value">
-    <number>24</number>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>返回登录</string>
    </property>
   </widget>
   <zorder>undoView_5</zorder>
   <zorder>avatar</zorder>
   <zorder>Home</zorder>
-  <zorder>test</zorder>
+  <zorder>upload</zorder>
   <zorder>hall</zorder>
-  <zorder>progressBar</zorder>
+  <zorder>exit</zorder>
  </widget>
  <customwidgets>
   <customwidget>

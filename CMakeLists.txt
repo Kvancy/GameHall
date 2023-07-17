@@ -37,6 +37,7 @@ set(PROJECT_SOURCES
         smtp.h smtp.cpp
         download.h download.cpp download.ui
         removey.h removey.cpp removey.ui
+        downloadtool.h downloadtool.cpp
 
 
 )
