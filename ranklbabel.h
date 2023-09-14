@@ -1,9 +1,10 @@
 #ifndef RANKLBABEL_H
 #define RANKLBABEL_H
-
+#pragma once
 #include <QLabel>
 #include <QApplication>
 #include <QProcess>
+//游戏大厅排行榜类
 class rankLbabel : public QLabel
 {
     Q_OBJECT

@@ -1,13 +1,15 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "loginwindow.h"
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QCryptographicHash>
 #include "roundimg.h"
 #include "gamehall.h"
+#include "signsucess.h"
 #include <QRegularExpressionValidator>
 #include <QSettings>
+#include <QThreadPool>
+#include <m_thread.h>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -19,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
     linkDatabase();
     login_init();
     mybtn();
-
 }
 
 MainWindow::~MainWindow()
@@ -30,10 +31,10 @@ MainWindow::~MainWindow()
 void MainWindow::linkDatabase()//连接数据库
 {
     database=QSqlDatabase::addDatabase("QMYSQL");
-    database.setHostName("rm-cn-wwo38fhvh0001iuo.rwlb.rds.aliyuncs.com");
+    database.setHostName("47.97.68.254");
     database.setPort(3306);
     database.setUserName("root");
-    database.setPassword("Ren123!@");
+    database.setPassword("root");
     database.setDatabaseName("myexe");
     database.open();
     if(!database.isOpen())
@@ -83,24 +84,19 @@ void MainWindow::login_init()//登录界面的美化
 
 
     QPixmap img;//上端圆形图片，用自己头像嘿嘿
+    QPixmap pixMap;
     img.load("://res/login.jpg");//图片加载
-    QPixmap pixMap= img.scaled(100,100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    //50为圆形的半径
+    pixMap= img.scaled(100,100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//scaled用于缩放尺寸100为圆形的半径
     pixMap =  PixmapToRound(pixMap, 100);
     ui->label_img->setPixmap(pixMap);
-
-    QPixmap img2;//左边皮卡丘捏
-    img2.load("://res/login2.jpg");
-    QPixmap pixMap2= img2.scaled(260,380, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    ui->label_img2->setPixmap(pixMap2);
-
-    QPixmap gth;//上端圆形图片，用自己头像嘿嘿
-    gth.load(":/res/exclamation.png");//图片加载
-    QPixmap gth2= gth.scaled(100,100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    //50为圆形的半径
-    gth2 =  PixmapToRound(gth2, 20);
-    ui->gantanhao->setPixmap(gth2);
-
+    img.load("://res/login2.jpg");//左边皮卡丘捏
+    pixMap= img.scaled(260,380, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    ui->label_img2->setPixmap(pixMap);
+    //上端圆形图片，用自己头像嘿嘿
+    img.load(":/res/exclamation.png");//图片加载
+    pixMap= img.scaled(100,100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    pixMap =  PixmapToRound(pixMap, 20);
+    ui->gantanhao->setPixmap(pixMap);
     //规定输入规范
     ui->lineEdit_1->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9a-zA-Z]{1,10}")));   //只能输入数字字母,控制不超过10位
 }
@@ -153,7 +149,7 @@ void MainWindow::login_judge()//根据判断结果显示不同内容
     {
         QString username = ui->lineEdit_1->text();
         //记住账号
-        QSettings writeini(inipath,QSettings::IniFormat);
+        QSettings writeini(inipath,QSettings::IniFormat);//inipath如果没有指定文件则创造新的文件
         writeini.setValue("Login/username",username);
         writeini.setValue("Login/isremember","false");
         if(ischecked)//登录成功并选中记住密码时更新ini配置
@@ -162,9 +158,30 @@ void MainWindow::login_judge()//根据判断结果显示不同内容
             writeini.setValue("Login/password",password);
             writeini.setValue("Login/isremember","true");
         }
+        //试图优化登录是服务器验证过程假死界面
+//        Wating1 *wt = new Wating1(this);
+//        wt->show();
+//        wt->m_move->start();
+//        QCoreApplication::processEvents();
         GameHall* gamehall = new GameHall(username);
+//        QCoreApplication::processEvents();
+        connect(gamehall,&GameHall::m_show,this,&MainWindow::Show);
+//        创建新线程处理gamehall的生成（还是挺费时的）
+//        thread1 *thred = new thread1;
+//        thred->Setmainw(this);
+//        thred->GetUsername(username);
+//        QThreadPool::globalInstance()->start(thred);
+//        connect(thred,&thread1::runout,this,[=](GameHall* gamehall){
+//            connect(gamehall,&GameHall::m_show,this,&MainWindow::Show);
+//            gamehall->show();
+//            delete wt;
+//            close();
+//        });
+//        connect(this,&MainWindow::stop,thred,
         gamehall->show();
         close();
+
+
     }
     else if(flag==1)//用户名错误
     {
@@ -185,9 +202,10 @@ void MainWindow::login_judge()//根据判断结果显示不同内容
 
 void MainWindow::signDown()//注册按钮按下
 {
-    close();
     LoginWindow *login = new LoginWindow();
+    connect(login,&LoginWindow::mainwindow_show,this,&MainWindow::Show);
     login->show();
+    close();
 }
 
 void MainWindow::mybtn()
@@ -217,7 +235,14 @@ void MainWindow::pwdRemember()
     }
 }
 
+void MainWindow::Show()
+{
+    show();
+}
+
 void MainWindow::checkbox_checked()//按钮状态改变及时更新判断数据
 {
     ischecked = ui->checkBox->isChecked();
 }
+
+

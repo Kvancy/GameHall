@@ -5,8 +5,11 @@ HallBtn::HallBtn(QWidget *parent)
 {
     //设置鼠标样式(可点击)
     setCursor(Qt::PointingHandCursor);
+
     aml1->setDuration(200);
     aml1->setEasingCurve(QEasingCurve::Linear);
+    aml2->setDuration(200);
+    aml2->setEasingCurve(QEasingCurve::Linear);
     //建立菜单策略
     this->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -32,7 +35,7 @@ void HallBtn::btn_up()
 
 void HallBtn::btn_down()
 {
-    aml1->setStartValue(QRect(this->x(),this->y(),this->width(),this->height()));
-    aml1->setEndValue(QRect(this->x(),this->y()+5,this->width(),this->height()));
-    aml1->start();
+    aml2->setStartValue(QRect(this->x(),this->y(),this->width(),this->height()));
+    aml2->setEndValue(QRect(this->x(),this->y()+5,this->width(),this->height()));
+    aml2->start();
 }

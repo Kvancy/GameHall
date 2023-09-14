@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>res/login.jpg</file>
         <file>res/signup.png</file>
-        <file>res/user.png</file>
         <file>res/key.png</file>
         <file>res/welcome.png</file>
         <file>res/login2.jpg</file>
@@ -10,10 +9,7 @@
         <file>res/WA.jpg</file>
         <file>res/checked.png</file>
         <file>res/sucess.png</file>
-        <file>res/R-C.jpg</file>
-        <file>res/R-C.png</file>
         <file>res/R-C2.jpg</file>
-        <file>res/R-C3.jpg</file>
         <file>res/fiveline.png</file>
         <file>res/chuanqi.gif</file>
         <file>res/right.png</file>
@@ -24,9 +20,6 @@
         <file>res/Tabletennis.png</file>
         <file>res/chuanqi.png</file>
         <file>res/landlord.png</file>
-        <file>res/lol.gif</file>
-        <file>res/lol.png</file>
-        <file>res/lol.jpg</file>
         <file>res/ayqj.png</file>
         <file>res/search.png</file>
         <file>res/rank.png</file>
@@ -36,5 +29,9 @@
         <file>res/Warrior.jpg</file>
         <file>res/sjsj.png</file>
         <file>res/zmxy.png</file>
+        <file>res/main.jpeg</file>
+        <file>res/R-C.png</file>
+        <file>res/lol.jpg</file>
+        <file>res/lol.gif</file>
     </qresource>
 </RCC>

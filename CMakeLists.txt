@@ -21,24 +21,16 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED Network COMPONENTS Core)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+        mainwindow.cpp mainwindow.h mainwindow.ui
         roundimg.h roundimg.cpp
         res.qrc
-        loginwindow.h loginwindow.cpp loginwindow.ui
         signsucess.h signsucess.cpp signsucess.ui
         gamehall.h gamehall.cpp gamehall.ui
         ico.rc
         hallbtn.h hallbtn.cpp
-        gif_label.h gif_label.cpp
         ranklbabel.h ranklbabel.cpp
-        search_results.h search_results.cpp search_results.ui
-        smtp.h smtp.cpp
-        download.h download.cpp download.ui
-        removey.h removey.cpp removey.ui
-        downloadtool.h downloadtool.cpp
-
+        loginwindow.ui removey.ui download.ui search_results.ui
+        m_thread.h m_thread.cpp
 
 )
 

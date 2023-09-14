@@ -1,12 +1,7 @@
 #include "gamehall.h"
-#include "DownloadTool.h"
-#include "download.h"
-#include "removey.h"
-#include "search_results.h"
 #include "ui_gamehall.h"
 #include <QProcess>
 #include <QMovie>
-#include "gif_label.h"
 #include <QCompleter>
 #include <QWheelEvent>
 #include <QBuffer>
@@ -16,7 +11,7 @@
 #include <QMenu>
 #include <QNetworkReply>
 #include <mainwindow.h>
-
+#include "signsucess.h"
 GameHall::GameHall(QString id,QWidget *parent) ://id记录登录用户的用户id
     QWidget(parent),
     ui(new Ui::GameHall)
@@ -26,7 +21,18 @@ GameHall::GameHall(QString id,QWidget *parent) ://id记录登录用户的用户i
     setMouseTracking(true);
     setWindowIcon(QIcon(":/res/R-C.png"));
     ID = id;
+    GameName<<"fiveline"<<"chat"<<"zmxy"<<"sjsj"<<"yzzr";
+    GameFile<<"/games/five2line"<<"/games/five2line"<<"/games/Zmxyol"<<"/games/sjsj"<<"/games/yzzr";
+    exe_path<<"/games/five2line/five2line.exe" << "/games/onlineChat/chat.exe" << "/games/Zmxyol/zmxy_online.exe"
+             << "/games/sjsj.exe" << "/games/yzzr/yzzr.exe";
+    DownPath<<"https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe"
+             <<"https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe"
+             <<"http://video.5054399.com/microgame/4399zmxyonline.exe?from=zmxyblockflashtip&1678844298"
+             <<"https://webpic.my4399.com/re/packer/sjsj/4399/3000_2/%E7%A5%9E%E5%B0%86%E4%B8%96%E7%95%8C.exe"
+             <<"https://video.5054399.com/microgame/4399yzzr.exe?from=yzzrblockflashtip";
+
     //设置gif播放
+    HallBtn *sender[5] = {ui->fiveline,ui->chat,ui->zmxy,ui->sjsj,ui->yzzr};
     QMovie *movie = new QMovie;
     movie->setParent(this);
     movie->setFileName(path_gif[index]);
@@ -36,7 +42,7 @@ GameHall::GameHall(QString id,QWidget *parent) ://id记录登录用户的用户i
 
     setMouseTracking(true);
     init();
-    btncon(movie,ui->gif);
+    btncon(movie,ui->gif,sender);
 
     search();
     //利用事件过滤器给搜索label添加点击释放信号功能
@@ -150,110 +156,33 @@ void GameHall::init()
 
 }
 
-void GameHall::btncon(QMovie *movie,Gif_Label *gif)
+void GameHall::btncon(QMovie *movie,QLabel *gif,HallBtn** btn)
 {
-
-    connect(ui->fiveline,&QPushButton::clicked,[=]()
-            {
-        if(QDir(path+"/games/five2line").exists())
-        {
-            QProcess *process = new QProcess(this);
-            process->start(path+"/games/five2line/five2line.exe");
-            connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
-            this->hide();
-            qDebug() << process->state();
-        }
-        else
-        {
-            Download *download = new Download();
-            DownloadTool *dt;
-            dt = new DownloadTool("https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe", path + "/games/five2line");
-            connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
-            connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
-            download->show();
-            dt->startDownload();
-        }
-            });
-    connect(ui->chat,&QPushButton::clicked,[=]()
-            {
-        if(QDir(path+"/games/five2line").exists())
-        {
-            QProcess *process = new QProcess(this);
-            process->start(path+"/games/five2line/five2line.exe");
-            connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
-            this->hide();
-        }
-        else
-        {
-            Download *download = new Download();
-            DownloadTool *dt;
-            dt = new DownloadTool("https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe", path + "/games/five2line");
-            connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
-            connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
-            download->show();
-            dt->startDownload();
-        }
-            });
-    connect(ui->zmxy,&QPushButton::clicked,[=]()
-            {
-        if(QDir(path+"/games/Zmxyol").exists())
-            {
-            QProcess *process = new QProcess(this);
-            process->start(path+"/games/Zmxyol/4399zmxyonline.exe");
-            connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
-            this->hide();
-//            qDebug() << process->state();
-//            qDebug() << path+"/games/Zmxyol/4399zmxyonline.exe";
-        }
-        else
-        {
-            Download *download = new Download();
-            DownloadTool *dt;
-            dt = new DownloadTool("http://video.5054399.com/microgame/4399zmxyonline.exe?from=zmxyblockflashtip&1678844298", path + "/games/Zmxyol");
-            connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
-            connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
-            download->show();
-            dt->startDownload();
-            }});
-    connect(ui->sjsj,&QPushButton::clicked,[=]()
-            {
-        if(QDir(path+"/games/sjsj").exists())
-            {
-        QProcess *process = new QProcess(this);
-        process->start(path+"/games/sjsj/神将世界.exe");
-        connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
-        this->hide();
-            }
-        else
-        {
-        Download *download = new Download();
-        DownloadTool *dt;
-        dt = new DownloadTool("https://webpic.my4399.com/re/packer/sjsj/4399/3000_2/%E7%A5%9E%E5%B0%86%E4%B8%96%E7%95%8C.exe", path + "/games/sjsj");
-        connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
-        connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
-        download->show();
-        dt->startDownload();
-        }
-    });
-    connect(ui->yzzr,&QPushButton::clicked,[=]()
-            {
-        if(QDir(path+"/games/yzzr").exists())
-            {
-        QProcess *process = new QProcess(this);
-        process->start(path+"/games/yzzr/4399yzzr.exe");
-        connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
-        this->hide();
-        }
-        else
-        {
-                    Download *download = new Download();
-                    DownloadTool *dt;
-                    dt = new DownloadTool("https://video.5054399.com/microgame/4399yzzr.exe?from=yzzrblockflashtip", path + "/games/yzzr");
-                    connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
-                    connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
-                    download->show();
-                    dt->startDownload();
-            }});
+    //左键按下时，没有游戏文件则下载游戏，有则启动游
+    for(int i=0;i<GameFile.length();i++)
+    {
+        connect(btn[i],&QPushButton::clicked,[=]()
+                {
+                    if(QDir(path+GameFile[i]).exists())
+                    {
+                        QProcess *process = new QProcess(this);
+                        process->start(path+exe_path[i]);
+                        connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
+                        this->hide();
+                        qDebug() << process->state();
+                    }
+                    else
+                    {
+                        Download *download = new Download();
+                        DownloadTool *dt;
+                        dt = new DownloadTool(DownPath[i], path + GameFile[i]);
+                        connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
+                        connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
+                        download->show();
+                        dt->startDownload();
+                    }
+                });
+    }
     //对ranklabel（按下，游戏启动）设置游戏大厅的隐藏和显示
     connect(ui->label_2,&rankLbabel::Toshow,[=]()
             {
@@ -265,12 +194,11 @@ void GameHall::btncon(QMovie *movie,Gif_Label *gif)
     });
 
     //为hallbtn添加右键菜单功能
-    //这里代码很笨重，待优化
-    connect(ui->fiveline,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu1(const QPoint&)));
-    connect(ui->chat,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu2(const QPoint&)));
-    connect(ui->zmxy,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu3(const QPoint&)));
-    connect(ui->sjsj,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu4(const QPoint&)));
-    connect(ui->yzzr,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu5(const QPoint&)));
+    connect(ui->fiveline,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu(const QPoint&)));
+    connect(ui->chat,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu(const QPoint&)));
+    connect(ui->zmxy,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu(const QPoint&)));
+    connect(ui->sjsj,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu(const QPoint&)));
+    connect(ui->yzzr,SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu(const QPoint&)));
 
     connect(ui->right,&QPushButton::clicked,[=]()
             {
@@ -302,17 +230,6 @@ void GameHall::btncon(QMovie *movie,Gif_Label *gif)
             }
             flag++;
         }});
-    //鼠标进入退出按钮出现或隐藏
-//    connect(gif,&Gif_Label::leave,[=]()
-//            {
-//                ui->left->hide();
-//                ui->right->hide();
-//            });
-//    connect(gif,&Gif_Label::enter,[=]()
-//            {
-//                ui->left->show();
-//                ui->right->show();
-//            });
     //移动滚动条效果
     connect(ui->verticalScrollBar,SIGNAL(valueChanged(int)),this,SLOT(slots_scroolwidget(int)));
     //头像上传按钮
@@ -320,9 +237,8 @@ void GameHall::btncon(QMovie *movie,Gif_Label *gif)
 
     connect(ui->exit,&QPushButton::clicked,[=]()
 {
-        close();
-        MainWindow *mainwindow = new MainWindow();
-        mainwindow->show();
+        emit m_show();
+        this->deleteLater();
     });
 }
 
@@ -467,10 +383,12 @@ void GameHall::processFinished(int, QProcess::ExitStatus)
     this->show();
 }
 
-void GameHall::showContextMenu1(const QPoint& pos)
+void GameHall::showContextMenu(const QPoint& pos)
 {
+    int i;
+    for (i = 0; i < GameName.length(); ++i) {if(sender()->objectName()==GameName[i])break;}
     QMenu *menu = new QMenu(this);
-    QDir dir(path+"/games/five2line");
+    QDir dir(path+GameFile[i]);
     if(dir.exists())
     {
         QAction *action = new QAction("卸载游戏");
@@ -492,147 +410,13 @@ void GameHall::showContextMenu1(const QPoint& pos)
                 {
             Download *download = new Download();
             DownloadTool *dt;
-            dt = new DownloadTool("https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe", path + "/games/five2line");
+            dt = new DownloadTool(exe_path[i], path + GameFile[i]);
             connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
             connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
             download->show();
             dt->startDownload();
                 });
     }
-    menu->exec(ui->fiveline->mapToGlobal(pos));
+    HallBtn *sendor = (HallBtn*)sender();
+    menu->exec(sendor->mapToGlobal(pos));
 }
-
-void GameHall::showContextMenu2(const QPoint& pos)
-{
-    QMenu *menu = new QMenu(this);
-    QDir dir(path+"/games/onlineChat");
-    if(dir.exists())
-    {
-        QAction *action = new QAction("卸载游戏");
-        menu->addAction(action);
-        connect(action,&QAction::triggered,[&]()
-                {
-                    dir.removeRecursively();
-                    removeY *remove = new removeY();
-                    remove->show();
-                });
-    }
-    else
-    {
-        QAction *action = new QAction("下载游戏");
-        menu->addAction(action);
-        connect(action,&QAction::triggered,[=]()
-                {
-                    Download *download = new Download();
-                    DownloadTool *dt;
-                    dt = new DownloadTool("https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe", path + "/games/onlineChat");
-                    connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
-                    connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
-                    download->show();
-                    dt->startDownload();
-                });
-    }
-    menu->exec(ui->chat->mapToGlobal(pos));
-}
-
-void GameHall::showContextMenu3(const QPoint& pos)
-{
-    QMenu *menu = new QMenu(this);
-    QDir dir(path+"/games/Zmxyol");
-    if(dir.exists())
-    {
-        QAction *action = new QAction("卸载游戏");
-        menu->addAction(action);
-        connect(action,&QAction::triggered,[&]()
-                {
-                    dir.removeRecursively();
-                    removeY *remove = new removeY();
-                    remove->show();
-                });
-    }
-    else
-    {
-        QAction *action = new QAction("下载游戏");
-        menu->addAction(action);
-        connect(action,&QAction::triggered,[=]()
-                {
-                    Download *download = new Download();
-                    DownloadTool *dt;
-                    dt = new DownloadTool("http://video.5054399.com/microgame/4399zmxyonline.exe?from=zmxyblockflashtip&1678844298", path + "/games/Zmxyol");
-                    connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
-                    connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
-                    download->show();
-                    dt->startDownload();
-                });
-    }
-    menu->exec(ui->zmxy->mapToGlobal(pos));
-}
-
-void GameHall::showContextMenu4(const QPoint& pos)
-{
-    QMenu *menu = new QMenu(this);
-    QDir dir(path+"/games/sjsj");
-    if(dir.exists())
-    {
-        QAction *action = new QAction("卸载游戏");
-        menu->addAction(action);
-        connect(action,&QAction::triggered,[&]()
-                {
-                    dir.removeRecursively();
-                    removeY *remove = new removeY();
-                    remove->show();
-                });
-
-    }
-    else
-    {
-        QAction *action = new QAction("下载游戏");
-        menu->addAction(action);
-        connect(action,&QAction::triggered,[=]()
-                {
-                    Download *download = new Download();
-                    DownloadTool *dt;
-                    dt = new DownloadTool("https://webpic.my4399.com/re/packer/sjsj/4399/3000_2/%E7%A5%9E%E5%B0%86%E4%B8%96%E7%95%8C.exe", path + "/games/sjsj");
-                    connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
-                    connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
-                    download->show();
-                    dt->startDownload();
-                });
-    }
-    menu->exec(ui->sjsj->mapToGlobal(pos));
-}
-
-void GameHall::showContextMenu5(const QPoint& pos)
-{
-    QMenu *menu = new QMenu(this);
-    QDir dir(path+"/games/yzzr");
-    if(dir.exists())
-    {
-        QAction *action = new QAction("卸载游戏");
-        menu->addAction(action);
-        connect(action,&QAction::triggered,[&]()
-                {
-                    dir.removeRecursively();
-                    removeY *remove = new removeY();
-                    remove->show();
-                });
-    }
-    else
-    {
-        QAction *action = new QAction("下载游戏");
-        menu->addAction(action);
-        connect(action,&QAction::triggered,[=]()
-                {
-                    Download *download = new Download();
-                    DownloadTool *dt;
-                    dt = new DownloadTool("https://video.5054399.com/microgame/4399yzzr.exe?from=yzzrblockflashtip", path + "/games/yzzr");
-                    connect(dt,SIGNAL(sigProgress(qint64, qint64, qreal)),download,SLOT(sltProgress(qint64, qint64, qreal)));
-                    connect(dt,SIGNAL(sigDownloadFinished()),download,SLOT(sltDownloadFinished()));
-                    download->show();
-                    dt->startDownload();
-                });
-    }
-    menu->exec(ui->yzzr->mapToGlobal(pos));
-}
-
-

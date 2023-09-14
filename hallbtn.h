@@ -1,11 +1,10 @@
 #ifndef HALLBTN_H
 #define HALLBTN_H
-
-#include "qdatetime.h"
+#pragma once
 #include "qpropertyanimation.h"
 #include <QToolButton>
 #include <QWidget>
-
+//大厅启动游戏的按钮类,按钮类
 class HallBtn : public QToolButton
 {
     Q_OBJECT
@@ -17,10 +16,9 @@ private:
     void leaveEvent(QEvent *event);
     void btn_up();
     void btn_down();
-    bool flag=0;//记录目前按钮状态，弹起还是落下
-    QPropertyAnimation *aml1 = new QPropertyAnimation(this,"geometry");
-    QPropertyAnimation *aml2 = new QPropertyAnimation(this,"geometry");
-    QTime time;
+    QPropertyAnimation *aml1 = new QPropertyAnimation(this);
+    QPropertyAnimation *aml2 = new QPropertyAnimation(this);
+
 
 
 signals:
