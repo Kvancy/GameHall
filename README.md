@@ -1,4 +1,7 @@
 - # GameHall
+![1727862747726](https://github.com/user-attachments/assets/d67514f9-ddf1-4ec1-adfa-6433abafedeb)
+![1727862765001](https://github.com/user-attachments/assets/21819a9c-9e30-4540-824d-653b88783cb0)
+![1727862757885](https://github.com/user-attachments/assets/5d6c1983-93a5-4d98-8a69-eb377b74627f)
 
   ## 有待完善：
 
@@ -31,3 +34,4 @@
   - 2023/7/17：完成了右键hallbtn启动游戏菜单功能，增加downloadtools类，用户可通过菜单进行游戏的启动和下载（需要以管理员身份运行才能启动demo），并增加download类实现可视的下载进度；增加了一个返回登录的功能
   
   - 2023/9/13：优化了部分冗长相似的代码，对之前堆空间内存管理不当进行了优化。
+
